@@ -1,0 +1,95 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "description": "Twitter API",
+    "version": "1.0.0",
+    "title": "Arpit's API"
+  },
+  "tags": [
+    {
+      "name": "Twitter API endpoints",
+      "description": "Example API for fetching tweets with given hashtag and from user timeline"
+    }
+  ],
+  "paths": {
+    "/hashtags/{hashtag}": {
+      "get": {
+        "summary": "Get tweets with given hashtag",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hashtag",
+            "required": true,
+            "description": "hashtag that we want to match",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "description": "limit of tweets which is required in a request",
+            "default": 30,
+            "minimum": 10,
+            "maximum": 100,
+            "type": "integer"
+          }
+        ],
+        "tags": [
+          "Twitter API endpoints"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Failed. Misunderstood Request."
+          },
+          "404": {
+            "description": "Failed. Book request not found."
+          }
+        }
+      }
+    },
+    "/users/{user}": {
+      "get": {
+        "summary": "Get tweets from the twitter user timeline",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user",
+            "required": true,
+            "description": "username of the user",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "description": "limit of tweets which is required in a request",
+            "default": 30,
+            "minimum": 10,
+            "maximum": 100,
+            "type": "integer"
+          }
+        ],
+        "tags": [
+          "Twitter API endpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Failed. Misunderstood Request."
+          },
+          "404": {
+            "description": "Failed. Book request not found."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+openapi: 3.0.3
+info:
+  description: Twitter API
+  version: 1.0.0
+  title: Twitter API
+tags:
+  - name: API endpoints
+    description: Example API for fetching tweets with given hashtag and from user timeline
+paths:
+  '/hashtags/{hashtag}':
+    get:
+      summary: Get tweets with given hashtag
+      parameters:
+        - in: path
+          name: hashtag
+          required: true
+          description: hashtag that we want to match
+          type: string
+        - in: query
+          name: limit
+          required: false
+          description: limit of tweets which is required in a request
+          default: 30
+          minimum: 10
+          maximum: 100
+          type: integer
+      tags:
+        - Twitter API endpoints
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schema/Tweet'
+        '400':
+          description: Failed. Misunderstood Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schema/Error'
+        '404':
+          description: Wrong Url, Kindly check.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schema/Error'
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schema/Error'
+  '/users/{user}':
+    get:
+      summary: Get tweets from the twitter user timeline
+      parameters:
+        - in: path
+          name: user
+          required: true
+          description: username of the user
+          type: string
+        - in: query
+          name: limit
+          required: false
+          description: limit of tweets which is required in a request
+          default: 30
+          minimum: 10
+          maximum: 100
+          type: integer
+      tags:
+        - Twitter API endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schema/Tweet'
+        '400':
+          description: Failed. Misunderstood Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schema/Error'
+        '404':
+          description: Wrong Url, Kindly check.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schema/Error'
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schema/Error'
+components:
+  schema:
+    Tweet:
+      type: object
+      properties:
+        account:
+          type: object
+          properties:
+            fullname:
+              type: string
+            href:
+              type: string
+            id:
+              type: string
+        date:
+          type: string
+          example: 'datetime'
+        hashtags:
+          type: array
+          items:
+            type: string
+          example: ['#Anymind','#Python','#Flask']
+        likes:
+          type: integer
+        replies:
+          type: integer
+        retweets:
+          type: integer
+        text:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
